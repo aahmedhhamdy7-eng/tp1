@@ -8,7 +8,7 @@ public class Server {
     public static void main(String[] args) {
         System.out.println("Je suis un serveur en attente de la connexion d'un client");
 
-        try (ServerSocket serverSocket = new ServerSocket(1234)) {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
             // Première étape : attendre un client
             Socket socket = serverSocket.accept();
 

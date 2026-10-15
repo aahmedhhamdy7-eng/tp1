@@ -5,13 +5,23 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 public class Server {
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(1234)) {
-            System.out.println("Serveur en attente d'un client...");
+        try {
+            InetAddress adresse = InetAddress.getLocalHost();
+            int port = 1234;
 
-            try (Socket socket = serverSocket.accept();
+            ServerSocket serverSocket = new ServerSocket();
+            serverSocket.bind(new InetSocketAddress(adresse, port));
+
+            System.out.println("Serveur en attente d'un client...");
+            System.out.println("Adresse IP : " + adresse.getHostAddress());
+
+            try (ServerSocket ss = serverSocket;
+                 Socket socket = ss.accept();
                  DataInputStream in = new DataInputStream(socket.getInputStream());
                  DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
 
@@ -28,6 +38,7 @@ public class Server {
                     }
 
                     int resultat = x * 5;
+
                     out.writeInt(resultat);
                     out.flush();
 
